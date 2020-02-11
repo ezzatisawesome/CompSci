@@ -1,0 +1,8 @@
+LFHS
+Scouts
+Sophie,Yang,6,Defense
+0,0,0
+Tara,Smith,9,Defense
+0,1,0
+Eve,Choi,12,Goalie
+2,3,0

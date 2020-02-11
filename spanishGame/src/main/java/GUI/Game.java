@@ -5,10 +5,10 @@
  */
 package GUI;
 
+
 import java.awt.event.KeyEvent;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import structures.User;
+import structures.Test;
+import structures.VerbReader;
 
 /**
  *
@@ -20,29 +20,27 @@ public class Game extends javax.swing.JFrame {
      * Creates new form Game
      */
     
-    User user;
-    
+    VerbReader reader;
     
     public Game() {
         initComponents();
-        user = new User();
-        boolean addFile = user.addFile("/Users/meesdef/OpenBeansProjects/spanishGame/src/main/java/structures/verb_database.csv");
-        if(addFile) {
-            
-        } else {
-            JPanel panel = new JPanel();
-            JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        reader = new VerbReader();
     }
     
-    public void addVerb(String str) {
-        String text = str;
-        if(user.addVerb(text)) {
-            verbsUsed.append(text);
-        } else {
-            JPanel panel = new JPanel();
-            JOptionPane.showMessageDialog(panel, "Couldn't find verb in database!", "Error", JOptionPane.ERROR_MESSAGE);
+    public boolean checkAnswer(String word)
+    {
+        if(verbInput.getText().equals(word))
+        {
+            return true;
         }
+        return false;
+    }
+    
+    public boolean turn()
+    {
+        String word = reader.nextWordWithConj();
+        verbOutput.setText(word);
+        return checkAnswer(word);
     }
 
     /**
@@ -54,22 +52,28 @@ public class Game extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        inputHeader = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        verbsUsed = new javax.swing.JTextArea();
+        jTextArea1 = new javax.swing.JTextArea();
         verbInput = new javax.swing.JTextField();
-        verbEnter = new javax.swing.JButton();
+        verbOutput = new javax.swing.JLabel();
+        enterAnswer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        inputHeader.setText("Input Verbs");
+        jToggleButton1.setText("jToggleButton1");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("Verbs That Will Be Used");
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
-        verbsUsed.setColumns(20);
-        verbsUsed.setRows(5);
-        jScrollPane1.setViewportView(verbsUsed);
+        jScrollPane2.setViewportView(jScrollPane1);
 
         verbInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,10 +86,12 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        verbEnter.setText("Enter");
-        verbEnter.addActionListener(new java.awt.event.ActionListener() {
+        verbOutput.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        enterAnswer.setText("Enter");
+        enterAnswer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verbEnterActionPerformed(evt);
+                enterAnswerActionPerformed(evt);
             }
         });
 
@@ -94,56 +100,61 @@ public class Game extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(verbInput, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(verbEnter))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(inputHeader)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(160, 160, 160))))
+                        .addComponent(jToggleButton1)
+                        .addGap(56, 56, 56)
+                        .addComponent(verbOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(verbInput, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(enterAnswer)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputHeader)
-                    .addComponent(jLabel1))
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(verbInput, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(verbEnter)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToggleButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(verbInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(enterAnswer))
+                        .addComponent(verbOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        jTextArea1.append(reader.nextLine());
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
     private void verbInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verbInputActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_verbInputActionPerformed
 
     private void verbInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_verbInputKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            addVerb(verbInput.getText());
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) 
+        {
+            checkAnswer(verbInput.getText());
         }
+          
     }//GEN-LAST:event_verbInputKeyPressed
 
-    private void verbEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verbEnterActionPerformed
+    private void enterAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterAnswerActionPerformed
         // TODO add your handling code here:
-        addVerb(verbInput.getText());
-    }//GEN-LAST:event_verbEnterActionPerformed
+        checkAnswer(verbInput.getText());
+    }//GEN-LAST:event_enterAnswerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,11 +192,12 @@ public class Game extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel inputHeader;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton enterAnswer;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton verbEnter;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField verbInput;
-    private javax.swing.JTextArea verbsUsed;
+    private javax.swing.JLabel verbOutput;
     // End of variables declaration//GEN-END:variables
 }
