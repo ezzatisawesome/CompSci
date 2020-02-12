@@ -4,6 +4,7 @@ public class Grid
 {
     public static final int NUM_ROWS = 10;
     public static final int NUM_COLS = 10;
+    private static final String HEADER_ROWS = "ABCDEFGHIJ";
     
     private Location[][] grid;
     
@@ -93,12 +94,17 @@ public class Grid
     
     public String[][] getGridStatus()
     {
-        String[][] gridData = new String[10][10];
+        String[][] gridData = new String[10][11];
+        for(int a = 0; a < HEADER_ROWS.length(); a++)
+        {
+            gridData[a][0] = HEADER_ROWS.charAt(a) + "";
+        }
+        
         for(int i = 0; i < NUM_COLS; i++)
         {
-            for(int j = 0; j < NUM_COLS; j++)
+            for(int j = 1; j < NUM_COLS+1; j++)
             {
-                int stat = grid[i][j].getStatus();
+                int stat = grid[i][j-1].getStatus();
                 if(stat == 0)
                 {
                     gridData[i][j] = "-";
@@ -118,12 +124,16 @@ public class Grid
     
     public String[][] getGridShips()
     {
-        String[][] shipStatus = new String[10][10];
+        String[][] shipStatus = new String[10][11];
+        for(int a = 0; a < HEADER_ROWS.length(); a++)
+        {
+            shipStatus[a][0] = HEADER_ROWS.charAt(a) + "";
+        }
         for(int i = 0; i < NUM_COLS; i++)
         {
-            for(int j = 0; j < NUM_COLS; j++)
+            for(int j = 1; j < NUM_COLS+1; j++)
             {
-                if(grid[i][j].hasShip())
+                if(grid[i][j-1].hasShip())
                 {
                     shipStatus[i][j] = "X";
                 }
