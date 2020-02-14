@@ -389,6 +389,14 @@ public class Main extends javax.swing.JFrame {
             computerMoveButton.setEnabled(true);
         }
         
+        for(int i = 0; i < computer.myShips.length; i++)
+        {
+            if(computer.isSunk(computer.myShips[i]))
+            {
+                directionsTextArea.append("\nYou sank my battleship!");
+            }
+        }
+        
         refreshGrid(guessTable, computer.getGrid().getGridStatus());        
     }//GEN-LAST:event_guessTableMouseClicked
 
@@ -404,11 +412,16 @@ public class Main extends javax.swing.JFrame {
         {
             directionsTextArea.setText("Computer guesses: " + (char)(row+65) + "" + 
                     (col + 1) + ": Hit!");  
+            human.recordOpponentGuess(row, col);
+            //refreshGrid(shipTable, human.getGrid().getGridShips());
+
         }
         else
         {
             directionsTextArea.setText("Computer guesses: " + (char)(row+65) + "" + 
-                    (col + 1) + ": Miss");  
+                    (col + 1) + ": Miss");
+            human.recordOpponentGuess(row, col);
+            //refreshGrid(shipTable, human.getGrid().getGridShips());
         }
         
         if(computer.opponentHitsRemaining() == 0)
